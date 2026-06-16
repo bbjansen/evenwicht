@@ -1,0 +1,319 @@
+site_name: Evenwicht
+site_description: Quantitative Methods from Foundations to Frontiers
+site_author: B.B. Jansen
+site_url: https://evenwicht.xyz/
+
+repo_url: https://github.com/bbjansen/evenwicht
+repo_name: bbjansen/evenwicht
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - scheme: default
+      primary: white
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: STIX Two Text
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/scale-balance
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search:
+      separator: '[\s\-\.]+'
+      lang: en
+  - privacy:
+      assets_exclude:
+        - unpkg.com/mathjax@*/*
+        - cdn.jsdelivr.net/npm/mathjax@*/*
+  - meta
+  - social:
+      cards_layout: default
+  - optimize
+  - glightbox
+  - git-revision-date-localized:
+      enable_creation_date: true
+      enable_git_follow: false
+      type: date
+      fallback_to_build_date: true
+      strict: false
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.mark
+  - pymdownx.smartsymbols:
+      copyright: false
+      registered: false
+      trademark: false
+  - pymdownx.keys
+  - admonition
+  - footnotes
+  - tables
+  - toc:
+      permalink: "#"
+      toc_depth: 3
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://d3js.org/d3.v7.min.js
+  - javascripts/knowledge-graph.js
+  - javascripts/mermaid-theme.js
+  - javascripts/mermaid-lightbox.js
+
+extra_css:
+  - stylesheets/math.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bbjansen/evenwicht
+    - icon: fontawesome/solid/file-pdf
+      link: https://github.com/bbjansen/evenwicht/releases/latest/download/evenwicht.pdf
+      name: Download PDF
+  generator: false
+copyright: Copyright &copy; 2025–2026 B.B. Jansen. Code licensed under AGPL-3.0. Documentation licensed under CC BY-NC 4.0.
+
+nav:
+  - Home:
+    - Overview: index.md
+    - How to Read: front/how-to-read.md
+    - Acknowledgments: front/acknowledgments.md
+    - Errata: front/errata.md
+
+  - Theory:
+    - I. Foundations:
+      - 1. Expressions & Functions: domains/01-expressions.md
+      - 2. Special Functions: domains/02-special-functions.md
+
+    - II. Calculus:
+      - 3. Limits & Continuity: domains/03-limits-continuity.md
+      - 4. Differential Calculus: domains/04-differential-calculus.md
+      - 5. Integral Calculus: domains/05-integral-calculus.md
+      - 6. Series & Approximation: domains/06-series-approximation.md
+      - 7. Multivariate Calculus: domains/07-multivariate-calculus.md
+
+    - III. Linear Algebra:
+      - 8. Vectors: domains/08-vectors.md
+      - 9. Matrices: domains/09-matrices.md
+      - 10. Eigenvalues: domains/10-eigenvalues.md
+
+    - IV. Optimization:
+      - 11. Unconstrained: domains/11-unconstrained-optimization.md
+      - 12. Constrained & LP: domains/12-constrained-optimization.md
+
+    - V. Probability & Statistics:
+      - 13. Probability Theory: domains/13-probability-theory.md
+      - 14. Distributions: domains/14-distributions.md
+      - 15. Descriptive Statistics: domains/15-descriptive-statistics.md
+      - 16. Statistical Inference: domains/16-statistical-inference.md
+      - 17. Regression & Econometrics: domains/17-regression.md
+
+    - VI. Dynamic Systems:
+      - 18. Difference Equations: domains/18-difference-equations.md
+      - 19. ODEs: domains/19-odes.md
+
+    - VII. Discrete & Time Series:
+      - 20. Discrete Operators: domains/20-discrete-operators.md
+      - 21. Time Series: domains/21-time-series.md
+      - 22. Transforms: domains/22-transforms.md
+
+    - VIII. Operator Theory:
+      - 23. Operator Algebra: domains/23-operator-algebra.md
+      - 24. Fractional Calculus: domains/24-fractional-calculus.md
+
+  - Applications:
+    - Finance & Economics:
+      - 25. Financial Mathematics: domains/25-financial-mathematics.md
+      - 26. Machine Learning: domains/26-machine-learning.md
+      - 27. Quantitative Trading: domains/27-quantitative-trading.md
+      - 28. Information Theory: domains/28-information-theory.md
+      - 36. Game Theory: domains/36-game-theory.md
+      - 37. Cryptography: domains/37-cryptography.md
+
+    - Life Sciences:
+      - 30. Epidemiology: domains/30-epidemiology.md
+      - 34. Chemical Kinetics: domains/34-chemical-kinetics.md
+      - 35. Pharmacokinetics: domains/35-pharmacokinetics.md
+      - 48. Genetics: domains/48-genetics.md
+
+    - Physical Sciences:
+      - 33. Equilibrium: domains/33-equilibrium.md
+      - 38. Climate Modelling: domains/38-climate-modeling.md
+      - 43. Fluid Dynamics: domains/43-fluid-dynamics.md
+      - 45. Geology & Seismology: domains/45-geology-seismology.md
+      - 46. Cosmology: domains/46-cosmology.md
+      - 47. Optics & Acoustics: domains/47-optics-acoustics.md
+
+    - Engineering:
+      - 29. Control Systems: domains/29-control-systems.md
+      - 31. Network Analysis: domains/31-network-analysis.md
+      - 32. Energy Systems: domains/32-energy-systems.md
+      - 39. Mechanics & Waves: domains/39-mechanics-waves.md
+      - 40. Signal Processing: domains/40-signal-processing.md
+      - 41. Orbital Mechanics: domains/41-orbital-mechanics.md
+      - 42. Robotics: domains/42-robotics.md
+      - 44. Circuits: domains/44-circuits.md
+
+  - Library:
+    - Overview: library/index.md
+    - Design Principles: library/design.md
+    - Modules: library/modules.md
+    - Examples: library/examples.md
+    - Roadmap: library/roadmap.md
+
+  - API Reference:
+    - 1. Expressions: api/01-expressions.md
+    - 2. Special Functions: api/02-special-functions.md
+    - 3. Limits: api/03-limits-continuity.md
+    - 4. Derivatives: api/04-differential-calculus.md
+    - 5. Integrals: api/05-integral-calculus.md
+    - 6. Series: api/06-series-approximation.md
+    - 7. Multivariate: api/07-multivariate-calculus.md
+    - 8. Vectors: api/08-vectors.md
+    - 9. Matrices: api/09-matrices.md
+    - 10. Eigenvalues: api/10-eigenvalues.md
+    - 11. Unconstrained Opt: api/11-unconstrained-optimization.md
+    - 12. Constrained Opt: api/12-constrained-optimization.md
+    - 13. Probability: api/13-probability-theory.md
+    - 14. Distributions: api/14-distributions.md
+    - 15. Descriptive Stats: api/15-descriptive-statistics.md
+    - 16. Inference: api/16-statistical-inference.md
+    - 17. Regression: api/17-regression.md
+    - 18. Difference Eq: api/18-difference-equations.md
+    - 19. ODEs: api/19-odes.md
+    - 20. Discrete Ops: api/20-discrete-operators.md
+    - 21. Time Series: api/21-time-series.md
+    - 22. Transforms: api/22-transforms.md
+    - 23. Operator Algebra: api/23-operator-algebra.md
+    - 24. Fractional Calc: api/24-fractional-calculus.md
+    - 25. Finance: api/25-financial-mathematics.md
+    - 26. Machine Learning: api/26-machine-learning.md
+    - 27. Trading: api/27-quantitative-trading.md
+    - 28. Info Theory: api/28-information-theory.md
+    - 29. Control Systems: api/29-control-systems.md
+    - 30. Epidemiology: api/30-epidemiology.md
+    - 31. Networks: api/31-network-analysis.md
+    - 32. Energy: api/32-energy-systems.md
+    - 33. Equilibrium: api/33-equilibrium.md
+    - 34. Chem Kinetics: api/34-chemical-kinetics.md
+    - 35. Pharma: api/35-pharmacokinetics.md
+    - 36. Game Theory: api/36-game-theory.md
+    - 37. Cryptography: api/37-cryptography.md
+    - 38. Climate: api/38-climate-modeling.md
+    - 39. Mechanics: api/39-mechanics-waves.md
+    - 40. Signal Proc: api/40-signal-processing.md
+    - 41. Orbital Mech: api/41-orbital-mechanics.md
+    - 42. Robotics: api/42-robotics.md
+    - 43. Fluids: api/43-fluid-dynamics.md
+    - 44. Circuits: api/44-circuits.md
+    - 45. Geology: api/45-geology-seismology.md
+    - 46. Cosmology: api/46-cosmology.md
+    - 47. Optics: api/47-optics-acoustics.md
+    - 48. Genetics: api/48-genetics.md
+
+  - Solutions:
+    - 1. Expressions & Functions: solutions/01-expressions.md
+    - 2. Special Functions: solutions/02-special-functions.md
+    - 3. Limits & Continuity: solutions/03-limits-continuity.md
+    - 4. Differential Calculus: solutions/04-differential-calculus.md
+    - 5. Integral Calculus: solutions/05-integral-calculus.md
+    - 6. Series & Approximation: solutions/06-series-approximation.md
+    - 7. Multivariate Calculus: solutions/07-multivariate-calculus.md
+    - 8. Vectors: solutions/08-vectors.md
+    - 9. Matrices: solutions/09-matrices.md
+    - 10. Eigenvalues: solutions/10-eigenvalues.md
+    - 11. Unconstrained Optimization: solutions/11-unconstrained-optimization.md
+    - 12. Constrained & LP: solutions/12-constrained-optimization.md
+    - 13. Probability Theory: solutions/13-probability-theory.md
+    - 14. Distributions: solutions/14-distributions.md
+    - 15. Descriptive Statistics: solutions/15-descriptive-statistics.md
+    - 16. Statistical Inference: solutions/16-statistical-inference.md
+    - 17. Regression: solutions/17-regression.md
+    - 18. Difference Equations: solutions/18-difference-equations.md
+    - 19. ODEs: solutions/19-odes.md
+    - 20. Discrete Operators: solutions/20-discrete-operators.md
+    - 21. Time Series: solutions/21-time-series.md
+    - 22. Transforms: solutions/22-transforms.md
+    - 23. Operator Algebra: solutions/23-operator-algebra.md
+    - 24. Fractional Calculus: solutions/24-fractional-calculus.md
+    - 25. Financial Mathematics: solutions/25-financial-mathematics.md
+    - 26. Machine Learning: solutions/26-machine-learning.md
+    - 27. Quantitative Trading: solutions/27-quantitative-trading.md
+    - 28. Information Theory: solutions/28-information-theory.md
+    - 29. Control Systems: solutions/29-control-systems.md
+    - 30. Epidemiology: solutions/30-epidemiology.md
+    - 31. Network Analysis: solutions/31-network-analysis.md
+    - 32. Energy Systems: solutions/32-energy-systems.md
+    - 33. Equilibrium: solutions/33-equilibrium.md
+    - 34. Chemical Kinetics: solutions/34-chemical-kinetics.md
+    - 35. Pharmacokinetics: solutions/35-pharmacokinetics.md
+    - 36. Game Theory: solutions/36-game-theory.md
+    - 37. Cryptography: solutions/37-cryptography.md
+    - 38. Climate Modelling: solutions/38-climate-modeling.md
+    - 39. Mechanics & Waves: solutions/39-mechanics-waves.md
+    - 40. Signal Processing: solutions/40-signal-processing.md
+    - 41. Orbital Mechanics: solutions/41-orbital-mechanics.md
+    - 42. Robotics: solutions/42-robotics.md
+    - 43. Fluid Dynamics: solutions/43-fluid-dynamics.md
+    - 44. Circuits: solutions/44-circuits.md
+    - 45. Geology & Seismology: solutions/45-geology-seismology.md
+    - 46. Cosmology: solutions/46-cosmology.md
+    - 47. Optics & Acoustics: solutions/47-optics-acoustics.md
+    - 48. Genetics: solutions/48-genetics.md
+
+  - Appendices:
+    - Knowledge Graph: graph/index.md
+    - Bibliography: reference/bibliography.md
+    - Notation Index: reference/notation-index.md
+    - Notation Card: reference/notation-card.md
+    - Comparisons: reference/comparisons.md
+    - Subject Index: reference/subject-index.md
+    - Math Tables: reference/math-tables.md
+    - Statistical Tables: reference/stat-tables.md

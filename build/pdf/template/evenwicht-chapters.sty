@@ -1,0 +1,28 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{evenwicht-chapters}
+
+% Compact chapter headings — reduce top space from default 50pt to 10pt
+\makeatletter
+\renewcommand*\@makechapterhead[1]{%
+  \vspace*{10pt}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \large\bfseries \@chapapp\space \thechapter
+        \par\nobreak
+        \vskip 5\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \LARGE \bfseries #1\par\nobreak
+    \vskip 15\p@
+  }}
+\renewcommand*\@makeschapterhead[1]{%
+  \vspace*{10pt}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \LARGE \bfseries #1\par\nobreak
+    \vskip 15\p@
+  }}
+\makeatother

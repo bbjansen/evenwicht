@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify-docs:
+    name: Documentation checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install pyspellchecker requests
+
+      - name: Domain consistency
+        run: python scripts/verify-domain-consistency.py
+
+      - name: Math validation
+        run: python scripts/verify-math.py
+
+      - name: Glossary sync
+        run: python scripts/verify-glossary.py
+
+      - name: Cross-references
+        run: python scripts/verify-cross-references.py
+
+      - name: Spelling
+        run: python scripts/verify-spelling.py
+
+      - name: API consistency
+        run: python scripts/verify-api-consistency.py
+
+      - name: Docs validation
+        run: bash scripts/validate-docs.sh
+
+  verify-math:
+    name: Mathematical verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install numpy scipy sympy
+
+      - name: Run verification suite (4,742 checks)
+        run: python verify/run_all.py

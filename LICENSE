@@ -1,0 +1,39 @@
+Evenwicht — Licensing
+
+Copyright (c) 2025-2026 Bob Jansen <bb.jansen@student.maastrichtuniversity.nl>. All rights reserved.
+
+This project uses separate licenses for code and documentation:
+
+1. SOURCE CODE (AGPL-3.0)
+
+   All source code (src/, scripts/, tests/, configuration files) is
+   licensed under the GNU Affero General Public License version 3.0.
+
+   You may use, modify, and distribute the code, provided that any
+   modified versions or software incorporating this code (including
+   network/SaaS use) is also released under AGPL-3.0 with full
+   source code made available.
+
+   Full license text: https://www.gnu.org/licenses/agpl-3.0.html
+
+2. DOCUMENTATION (CC BY-NC 4.0)
+
+   All documentation (docs/, README.md, and all .md files) is licensed
+   under Creative Commons Attribution-NonCommercial 4.0 International.
+
+   You are free to share and adapt the documentation for non-commercial
+   purposes, with appropriate attribution.
+
+   Full license text: https://creativecommons.org/licenses/by-nc/4.0/
+
+3. COMMERCIAL LICENSE
+
+   If these open-source terms do not work for your use case — for example:
+   - Using the library in proprietary/closed-source software
+   - Offering it as part of a commercial SaaS product
+   - Using the documentation in paid courses or commercial products
+   - Redistributing without AGPL or CC BY-NC obligations
+
+   A separate commercial license is available.
+
+   Contact: bb.jansen@student.maastrichtuniversity.nl

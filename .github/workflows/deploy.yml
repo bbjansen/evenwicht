@@ -1,0 +1,35 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Build and deploy MkDocs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install system deps for social cards and image optimisation
+        run: sudo apt-get update && sudo apt-get install -y libcairo2 libpango-1.0-0 libpangoft2-1.0-0 pngquant
+
+      - name: Install MkDocs and plugins
+        run: |
+          pip install \
+            "mkdocs-material[imaging]" \
+            mkdocs-git-revision-date-localized-plugin \
+            mkdocs-glightbox
+
+      - name: Build site and deploy to GitHub Pages
+        run: mkdocs gh-deploy --force --strict

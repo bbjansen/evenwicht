@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build-pdf:
+    name: Build PDF and create release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install Pillow scipy numpy
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Install system deps (Chromium for mermaid-cli, LaTeX, pandoc)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ca-certificates fonts-liberation libasound2t64 libatk-bridge2.0-0 \
+            libatk1.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libgbm1 \
+            libglib2.0-0t64 libnspr4 libnss3 libpango-1.0-0 libx11-6 libx11-xcb1 \
+            libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 \
+            libxi6 libxkbcommon0 libxrandr2 libxrender1 libxss1 libxtst6 \
+            texlive-luatex \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-science \
+            pandoc \
+            fonts-texgyre
+
+      - name: Build PDF
+        run: bash build/pdf/build.sh
+
+      - name: Extract version from tag
+        id: version
+        run: echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          cp "book/evenwicht-${TAG}.pdf" "book/evenwicht.pdf"
+          gh release create "$TAG" \
+            "book/evenwicht-${TAG}.pdf" \
+            "book/evenwicht.pdf" \
+            --title "$TAG" \
+            --notes "Evenwicht $TAG — PDF built from source."

@@ -1,0 +1,475 @@
+% Evenwicht — Academic LaTeX Template
+% Classic 80s/90s textbook style: Times Roman, clean layout, no frills
+% Modeled after Springer GTM / AMS conventions
+
+\documentclass[$if(fontsize)$$fontsize$,$endif$twoside,openany]{book}
+
+% Remove excessive top spacing on chapter pages
+\raggedbottom
+
+% Reduce chapter heading top space — loaded from external .sty
+\usepackage{evenwicht-chapters}
+
+% ── Fonts ──────────────────────────────────────
+\usepackage{fontspec}
+\directlua{
+  luaotfload.add_fallback("mainfallback", {
+    "Latin Modern Math:mode=harf;",
+  })
+}
+\setmainfont{TeX Gyre Termes}[
+  RawFeature={fallback=mainfallback}
+]
+\setsansfont{TeX Gyre Termes}
+\setmonofont{TeX Gyre Cursor}[Scale=0.82]
+
+% ── Page geometry ──────────────────────────────
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+
+% ── Colors (minimal, academic) ─────────────────
+\usepackage{xcolor}
+
+% ── Math ───────────────────────────────────────
+\usepackage{mathtools}
+\usepackage{amssymb,amsthm}
+\usepackage{unicode-math}
+% Suppress amssymb/unicode-math redefinition warnings
+\AtBeginDocument{\let\square\mdlgwhtsquare}
+\setmathfont{Latin Modern Math}
+
+% Equation/figure/table numbering by chapter
+\numberwithin{equation}{chapter}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
+% Theorem environments (Springer/AMS convention)
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ── Graphics ───────────────────────────────────
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+
+% Smart scaling: shrink to fit but never enlarge
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>0.75\textheight 0.75\textheight\else\Gin@nat@height\fi}
+\makeatother
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% Center all images
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{\begin{center}\oldincludegraphics[#1]{#2}\end{center}}
+
+% Landscape pages for wide tables
+\usepackage{pdflscape}
+
+% Relaxed float placement (prevent figures pushed to end-of-chapter)
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+
+% ── Tables ─────────────────────────────────────
+\usepackage{calc}
+\usepackage{longtable,booktabs,array}
+\usepackage{etoolbox}
+
+% Tables in \small (10pt at 11pt body) — standard academic convention
+% Makes display math stand out against surrounding table content
+\AtBeginEnvironment{longtable}{\small}
+\renewcommand{\arraystretch}{1.15}
+
+% Wider first column and more cell padding
+\setlength{\tabcolsep}{6pt}
+\AtBeginEnvironment{longtable}{%
+  \small
+  \setlength{\tabcolsep}{8pt}%
+}
+
+% Figure captions in \small
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+
+% ── Code listings ──────────────────────────────
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% Re-define Highlighting AFTER pandoc's macros (they only set commandchars)
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{
+  commandchars=\\\{\},
+  breaklines,
+  breakanywhere,
+  breaksymbolleft={\small\ensuremath{\hookrightarrow}},
+  fontsize=\small,
+  frame=single,
+  rulecolor=\color{black!20},
+  framesep=6pt
+}
+
+% Define Shaded environment (pandoc expects it for code blocks)
+% Use Highlighting's own frame; Shaded just adds vertical spacing
+% Pandoc auto-defines \Shaded; \renewenvironment overrides without conflict.
+\AtBeginDocument{\renewenvironment{Shaded}{\vspace{4pt}}{\vspace{4pt}}}
+
+% Plain verbatim (unlabeled code blocks): match Highlighting style
+\let\oldverbatim\verbatim
+\let\oldendverbatim\endverbatim
+\renewenvironment{verbatim}{%
+  \vspace{4pt}%
+  \VerbatimEnvironment
+  \begin{Verbatim}[breaklines,breakanywhere,fontsize=\small,frame=single,rulecolor=\color{black!20},framesep=6pt]%
+}{%
+  \end{Verbatim}%
+  \vspace{4pt}%
+}
+
+% ── Headers and footers ───────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape\leftmark}
+\fancyhead[R]{\small\MakeUppercase{Evenwicht}}
+\fancyfoot[L]{\footnotesize $version$}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[R]{\small\MakeUppercase{Evenwicht}}
+  \fancyfoot[L]{\footnotesize $version$}
+  \fancyfoot[R]{\small\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+}
+
+% ── Table of contents ─────────────────────────
+\setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$2$endif$}
+
+% ── Hyperlinks ─────────────────────────────────
+\usepackage[hidelinks,breaklinks=true]{hyperref}
+\hypersetup{
+  pdftitle={$title-meta$},
+  pdfauthor={$author-meta$},
+  colorlinks=false,
+  pdfborder={0 0 0},
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=1
+}
+\urlstyle{same}
+
+% Allow URLs to break at any character (prevent overflow)
+\usepackage{url}
+\Urlmuskip=0mu plus 3mu
+
+% ── Blockquotes (left bar, indented, italic) ───
+\renewenvironment{quote}{%
+  \par\medskip
+  \list{}{%
+    \leftmargin=1.5em
+    \rightmargin=1.5em
+  }%
+  \item\relax
+  \leavevmode\llap{\textcolor{black!30}{\rule[-\dp\strutbox]{2pt}{\baselineskip}}\hspace{6pt}}%
+  \itshape\ignorespaces
+}{%
+  \endlist
+  \medskip
+}
+
+% ── Spacing ────────────────────────────────────
+\usepackage{setspace}
+$if(linestretch)$
+\setstretch{$linestretch$}
+$endif$
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt plus 3pt}
+
+% Extra breathing room around display math
+\setlength{\abovedisplayskip}{14pt plus 4pt minus 3pt}
+\setlength{\belowdisplayskip}{14pt plus 4pt minus 3pt}
+\setlength{\abovedisplayshortskip}{8pt plus 3pt}
+\setlength{\belowdisplayshortskip}{8pt plus 3pt}
+
+% Prevent orphans and widows
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Allow long equations to break across lines
+\allowdisplaybreaks[2]
+
+% Prevent inline math from overflowing
+\emergencystretch=3em
+
+% Scale oversized display math to fit page width
+\usepackage{adjustbox}
+\let\oldbeginequation\[
+\let\oldendequation\]
+
+% ── Pandoc compatibility ───────────────────────
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% pandoc 3.x image wrapper (centering handled by \includegraphics override)
+\newcommand{\pandocbounded}[1]{#1}
+
+% pandoc 3.x uncaptioned longtable fix (caption package loaded above)
+\DeclareCaptionType{none}[]{}
+
+% ── CSL references ─────────────────────────────
+$if(csl-refs)$
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{CSLReferences}[2]{}{}
+$endif$
+
+% ── Draft watermark (enabled via metadata: draft: true) ──
+$if(draft)$
+\usepackage{eso-pic}
+\AddToShipoutPictureBG{%
+  \AtPageCenter{%
+    \rotatebox{45}{\scalebox{8}{\textsf{\textcolor{black!8}{DRAFT}}}}%
+  }%
+}
+$endif$
+
+% ── Additional header includes ─────────────────
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% ══════════════════════════════════════════════
+\begin{document}
+
+% ── Page 1: Title page ─────────────────────────
+\begin{titlepage}
+\raggedright
+
+\vspace*{3cm}
+
+{\fontsize{42}{48}\selectfont\bfseries $title$\par}
+
+\vspace{0.3cm}
+\rule{4cm}{0.8pt}
+\vspace{0.8cm}
+
+$if(subtitle)$
+{\large $subtitle$\par}
+$endif$
+
+\vspace{1.5cm}
+{\large B.B. Jansen\par}
+
+\vfill
+
+{\footnotesize\MakeUppercase{Analysis \& Operators\quad Probability \& Inference\quad Dynamics \& Transforms\quad Applications}\par}
+\vspace{0.4cm}
+{\footnotesize $version$ \quad\textbullet\quad 2025--2026\par}
+
+\end{titlepage}
+
+% ── Page 2: Gnostic balance scale ──────────────
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{center}
+\begin{tikzpicture}[line width=0.5pt, black]
+
+  % Pleroma rays (behind everything)
+  \foreach \a in {0,15,...,345} {
+    \draw[black!8, line width=0.3pt] (0,2.8) -- +(\a:5.5);
+  }
+
+  % Ouroboros (serpent circle)
+  \draw[line width=1pt, black!70] (0,2.8) circle (4.2);
+  \foreach \a in {0,8,...,352} {
+    \draw[black!15, line width=0.2pt]
+      ({\a}:4.05) arc (\a:{\a+6}:4.05) --
+      ({\a+6}:4.35) arc ({\a+6}:\a:4.35) -- cycle;
+  }
+
+  % Serpent head (at ~42 degrees on the circle)
+  \fill[black!70] (42:4.2) -- ++(0.35,0.18) -- ++(-.05,-0.12) -- ++(-.25,-0.04) -- cycle;
+  \fill[black!55] (40:4.15) -- ++(0.30,-0.10) -- ++(-.05,0.08) -- ++(-.22,0.04) -- cycle;
+  \fill[white] (43:4.4) circle (0.055);
+  \fill[black] (43:4.4) circle (0.025);
+
+  % Tetractys base (10 dots in triangle: 1-2-3-4)
+  \foreach \x in {0} { \fill[black!50] (\x, -0.8) circle (1.8pt); }
+  \foreach \x in {-0.2, 0.2} { \fill[black!50] (\x, -0.5) circle (1.8pt); }
+  \foreach \x in {-0.4, 0, 0.4} { \fill[black!50] (\x, -0.2) circle (1.8pt); }
+  \foreach \x in {-0.6, -0.2, 0.2, 0.6} { \fill[black!50] (\x, 0.1) circle (1.8pt); }
+
+  % Pedestal
+  \fill[black!6] (-0.5,0.25) -- (0.5,0.25) -- (0.35,0.45) -- (-0.35,0.45) -- cycle;
+  \draw (-0.5,0.25) -- (0.5,0.25) -- (0.35,0.45) -- (-0.35,0.45) -- cycle;
+
+  % Pillar
+  \draw[line width=0.8pt] (0,0.45) -- (0,4.4);
+
+  % Monad at fulcrum (circle with dot)
+  \draw[line width=0.8pt] (0,4.55) circle (0.35);
+  \fill (0,4.55) circle (2pt);
+
+  % Beam
+  \draw[line width=1.2pt] (-3.0,4.55) -- (3.0,4.55);
+  \fill (-3.0,4.55) circle (1.5pt);
+  \fill (3.0,4.55) circle (1.5pt);
+
+  % Left pan (Analysis / Calculus)
+  \draw (-2.6,4.55) -- (-2.6,3.3);
+  \draw (-2.2,4.55) -- (-2.2,3.3);
+  \draw[line width=0.7pt] (-3.0,3.3) .. controls (-2.7,2.85) and (-2.1,2.85) .. (-1.8,3.3);
+  \draw (-3.0,3.3) -- (-3.0,3.35);
+  \draw (-1.8,3.3) -- (-1.8,3.35);
+  \node[font=\Large] at (-2.6,3.5) {\(\displaystyle\int\)};
+  \node[font=\normalsize] at (-2.1,3.55) {\(\Sigma\)};
+  \node[font=\scriptsize] at (-2.35,3.2) {\(\frac{d}{dx}\)};
+
+  % Right pan (Algebra / Statistics)
+  \draw (2.6,4.55) -- (2.6,3.3);
+  \draw (2.2,4.55) -- (2.2,3.3);
+  \draw[line width=0.7pt] (3.0,3.3) .. controls (2.7,2.85) and (2.1,2.85) .. (1.8,3.3);
+  \draw (3.0,3.3) -- (3.0,3.35);
+  \draw (1.8,3.3) -- (1.8,3.35);
+  \node[font=\normalsize] at (2.2,3.55) {\(\nabla\)};
+  \node[font=\normalsize] at (2.6,3.5) {\(\mu\)};
+  \node[font=\scriptsize] at (2.4,3.2) {\(\sigma^2\)};
+
+  % Celestial dots (arc above)
+  \foreach \a in {140,130,120,110,100,80,70,60,50,40} {
+    \fill[black!50] ({4.8*cos(\a)},{2.8+4.8*sin(\a)}) circle (1.5pt);
+  }
+  \fill[black!50] ({4.8*cos(90)},{2.8+4.8*sin(90)}) circle (2.5pt);
+
+\end{tikzpicture}
+\end{center}
+
+\vspace*{\fill}
+
+{\footnotesize\MakeUppercase{Analysis \& Operators\quad Probability \& Inference\quad Dynamics \& Transforms\quad Applications}\par}
+\vspace{0.4cm}
+{\footnotesize $version$ \quad\textbullet\quad 2025--2026\par}
+
+\clearpage
+
+% ── Page 3: Copyright / Colophon ───────────────
+\thispagestyle{empty}
+\begingroup\raggedright
+
+{\large\bfseries $title$\par}
+\vspace{0.2cm}
+$if(subtitle)$
+{\normalsize\itshape $subtitle$\par}
+$endif$
+
+\vspace{1cm}
+
+{\small
+Copyright \textcopyright{} 2025--2026 B.B. Jansen.\par
+\vspace{0.5cm}
+
+\textbf{Source code} (AGPL-3.0)\par
+All source code is licensed under the GNU Affero General Public License version 3.0.
+You may use, modify, and distribute the code, provided that derivative works and
+network/SaaS use are also released under AGPL-3.0 with full source.\par
+\vspace{0.3cm}
+
+\textbf{Documentation} (CC BY-NC 4.0)\par
+All documentation is licensed under Creative Commons
+Attribution-NonCommercial 4.0 International. Free to share and adapt
+for non-commercial purposes with attribution.\par
+\vspace{0.3cm}
+
+\textbf{Commercial licensing}\par
+A separate license is available for proprietary, commercial, or SaaS use
+of either code or documentation. Contact: bobjansen@pm.me\par
+\vspace{1cm}
+
+Version $version$. First edition, 2025--2026.\par
+\vspace{0.3cm}
+Typeset in TeX Gyre Termes using pandoc and Lua\LaTeX.\par
+Diagrams rendered with Mermaid via Puppeteer/Chromium.\par
+Cover art composed in Ti\textit{k}Z.\par
+\vspace{0.3cm}
+The balance scale on the preceding page symbolises \textit{evenwicht} (Dutch: equilibrium) ---
+the unifying theme of this work, where analysis and algebra, theory and computation,
+are held in balance.\par
+}
+
+\vfill
+
+{\footnotesize
+bobjansen@pm.me\par
+}
+\endgroup
+
+\clearpage
+
+% Suppress headers/footers on blank pages between front matter sections
+\fancypagestyle{empty}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}}
+
+% ── Front matter ───────────────────────────────
+\frontmatter
+
+$if(toc)$
+{\small\tableofcontents}
+$endif$
+
+% ── Main matter ────────────────────────────────
+\mainmatter
+
+$body$
+
+% ── Back matter ────────────────────────────────
+\backmatter
+
+{\small\setstretch{1.2}\listoffigures}
+
+{\small\setstretch{1.2}\listoftables}
+
+% ── End colophon ───────────────────────────────
+\clearpage
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{center}
+{\large\bfseries $title$}
+
+\vspace{0.5cm}
+\rule{3cm}{0.4pt}
+\vspace{0.5cm}
+
+{\small\itshape
+This book was composed entirely from plain-text sources.\par
+\vspace{0.2cm}
+48 chapters \textbullet{} 289 diagrams \textbullet{} 487 references\par
+\vspace{0.2cm}
+618 notation entries across 24 applied domains\par
+\vspace{0.8cm}
+Written, typeset, and verified 2025--2026.\par
+}
+
+\vspace{0.5cm}
+\rule{3cm}{0.4pt}
+\end{center}
+
+\vspace*{\fill}
+
+\end{document}
