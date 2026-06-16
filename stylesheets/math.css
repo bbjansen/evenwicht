@@ -1,0 +1,967 @@
+/* Evenwicht — Math-optimized styling for MkDocs Material */
+/* Palette: deep orange (#e64a19), black, slate blue, warm white */
+/* Fonts: STIX Two Text (body/math), Inter (headings/nav), JetBrains Mono (code) */
+
+@import url('../assets/external/fonts.googleapis.com/css2.50fd8dfc.css');
+
+/* ── Reading toolbar ─────────────────────────── */
+#ev-toolbar {
+  position: fixed;
+  bottom: 1.2em;
+  right: 1.5em;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  background: var(--md-default-bg-color, #fff);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 0.3em 0.5em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  font-family: inherit;
+}
+
+#ev-toolbar button {
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3em 0.6em;
+  color: var(--md-default-fg-color, #333);
+  transition: background 0.15s, color 0.15s;
+}
+
+#ev-toolbar button:hover {
+  background: #e64a19;
+  color: #fff;
+  border-color: #e64a19;
+}
+
+#ev-font-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  min-width: 2.5em;
+  text-align: center;
+  color: var(--md-default-fg-color--light, #666);
+}
+
+#ev-zen-btn {
+  margin-left: 0.3em;
+  border-left: 1px solid rgba(0, 0, 0, 0.08) !important;
+  padding-left: 0.7em !important;
+}
+
+/* ── Focus mode: hide sidebars ──────────────── */
+.ev-zen .md-sidebar {
+  display: none !important;
+}
+
+.ev-zen .md-tabs {
+  display: none !important;
+}
+
+.ev-zen .md-content {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: none;
+}
+
+.ev-zen .md-content__inner {
+  max-width: 80em;
+  margin: 0 auto;
+  padding: 0 2em;
+}
+
+/* ── Zen mode is handled entirely via JS:       */
+/* all stylesheets are disabled and a minimal     */
+/* inline <style> provides only body centering    */
+/* and toolbar positioning. See main.html.        */
+
+/* ── Layout ──────────────────────────────────── */
+.md-typeset {
+  font-size: var(--ev-font-size, 0.86rem);
+  line-height: 1.7;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Headings use Inter for contrast with serif body */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  font-family: "Inter", var(--md-text-font-family), sans-serif;
+}
+
+.md-content {
+  max-width: none;
+}
+
+.md-grid {
+  max-width: 1440px;
+}
+
+/* ── Math (MathJax) ──────────────────────────── */
+.MathJax[display="true"],
+mjx-container[jax="CHTML"][display="true"] {
+  margin: 1.6em 0 !important;
+  padding: 1em 1.2em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: rgba(0, 0, 0, 0.018);
+  border-radius: 4px;
+  border-left: 3px solid #e64a19;
+}
+
+mjx-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Breathing room between consecutive display equations */
+mjx-container[display="true"] + mjx-container[display="true"] {
+  margin-top: 0.8em !important;
+}
+
+/* Inline math: prevent crowding line height */
+mjx-container:not([display="true"]) {
+  padding: 0 0.05em;
+  vertical-align: baseline;
+}
+
+/* ── Headings ────────────────────────────────── */
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.3em;
+  font-size: 1.8em;
+  border-bottom: 3px solid #e64a19;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  margin-top: 2.8em;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.35em;
+  border-bottom: 2px solid rgba(230, 74, 25, 0.25);
+  font-size: 1.4em;
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+  margin-top: 2em;
+  margin-bottom: 0.4em;
+  font-size: 1.12em;
+  color: #333;
+}
+
+.md-typeset h4 {
+  font-weight: 600;
+  margin-top: 1.4em;
+  margin-bottom: 0.3em;
+  font-size: 1em;
+  color: #444;
+}
+
+/* ── Blockquotes (chapter epigraphs) ─────────── */
+.md-typeset blockquote {
+  border-left: 3px solid #e64a19;
+  padding: 0.8em 1.4em;
+  font-style: italic;
+  color: #555;
+  background: rgba(230, 74, 25, 0.02);
+  border-radius: 0 6px 6px 0;
+  margin: 1.8em 0;
+}
+
+.md-typeset blockquote p {
+  margin: 0.5em 0;
+  line-height: 1.7;
+}
+
+/* ── Theorems, Definitions, Remarks ──────────── */
+/* Bold labels like "Theorem 3.1", "Definition 3.4" */
+.md-typeset > p > strong:first-child {
+  letter-spacing: 0.01em;
+}
+
+/* ── Proof admonitions ───────────────────────── */
+.md-typeset details[open] > summary {
+  margin-bottom: 0.4em;
+}
+
+/* Custom proof styling — override the default note blue */
+.md-typeset .admonition.note,
+.md-typeset details.note {
+  border-color: #5c6bc0;
+}
+
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary {
+  background-color: rgba(92, 107, 192, 0.1);
+}
+
+/* More padding inside proof blocks for readability */
+.md-typeset details.note > .admonition-title ~ *,
+.md-typeset details.note > summary ~ * {
+  padding-left: 0.2em;
+  text-align: left;
+}
+
+/* Space after the Proof. italic opener inside admonitions */
+.md-typeset details p:first-of-type {
+  margin-top: 0.2em;
+}
+
+/* ── Tables ──────────────────────────────────── */
+.md-typeset table:not([class]) {
+  font-size: 0.9em;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.4em 0;
+}
+
+.md-typeset table:not([class]) th {
+  font-weight: 700;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 2px solid #ccc;
+  padding: 0.65em 0.9em;
+  font-size: 0.92em;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.md-typeset table:not([class]) td {
+  border-bottom: 1px solid #eee;
+  padding: 0.55em 0.9em;
+  vertical-align: top;
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background: rgba(230, 74, 25, 0.03);
+}
+
+.md-typeset table:not([class]) td:first-child {
+  min-width: 60px;
+  font-weight: 500;
+}
+
+/* ── Code blocks ─────────────────────────────── */
+.md-typeset code {
+  font-size: 0.85em;
+  padding: 0.15em 0.45em;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.md-typeset pre {
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  border-left: 3px solid #e64a19;
+  margin: 1.4em 0;
+}
+
+.md-typeset pre code {
+  font-size: 0.85em;
+  line-height: 1.5;
+  padding: 1.1em 1.2em;
+  background: none;
+}
+
+/* ── Evenwicht colour palette ───────────────── */
+:root {
+  --ev-grey:    #e8e8e8;
+  --ev-red:     #f8d7da;
+  --ev-blue:    #d1ecf1;
+  --ev-green:   #c8e6c9;
+  --ev-yellow:  #fff3cd;
+  --ev-magenta: #e8daef;
+  --ev-cyan:    #d1f2eb;
+  --ev-stroke:  #555555;
+  --ev-text:    #333333;
+}
+
+/* ── Mermaid theme variables ─────────────────── */
+/* Material uses :root>* to set mermaid vars from */
+/* the accent colour. We must match that selector */
+/* or higher to override.                         */
+:root > * {
+  --md-mermaid-node-bg-color: #e8e8e8;
+  --md-mermaid-node-fg-color: #333333;
+  --md-mermaid-edge-color: #888888;
+  --md-mermaid-label-bg-color: #ffffff;
+  --md-mermaid-label-fg-color: #333333;
+  --md-mermaid-font-family: var(--md-text-font-family);
+}
+
+[data-md-color-scheme="slate"] {
+  --ev-grey:    #3a3a3a;
+  --ev-red:     #5c3a3a;
+  --ev-blue:    #2a4a5c;
+  --ev-green:   #2a4a2e;
+  --ev-yellow:  #5c5028;
+  --ev-magenta: #4a3350;
+  --ev-cyan:    #2a4a46;
+  --ev-stroke:  #888888;
+  --ev-text:    #cccccc;
+}
+[data-md-color-scheme="slate"] > * {
+  --md-mermaid-node-bg-color: #3a3a3a;
+  --md-mermaid-node-fg-color: #cccccc;
+  --md-mermaid-edge-color: #777777;
+  --md-mermaid-label-bg-color: #2d2d2d;
+  --md-mermaid-label-fg-color: #e0e0e0;
+}
+
+/* ── Mermaid diagrams ────────────────────────── */
+.mermaid {
+  text-align: center;
+  margin: 0;
+  padding: 1.4em 1.4em 0.4em;
+  background: rgba(0, 0, 0, 0.012);
+  border: 1px solid #e0e0e0;
+  border-radius: 6px 6px 0 0;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Figure caption: pull into grey box ───────── */
+/* The italic caption paragraph immediately after  */
+/* the diagram wrapper merges into the box.        */
+.ev-diagram-wrapper {
+  margin: 2em 0 0;
+}
+.ev-diagram-wrapper + p {
+  margin: 0;
+  padding: 0.5em 1.4em 0.8em;
+  background: rgba(0, 0, 0, 0.012);
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  font-size: 0.82em;
+  color: #666666;
+  text-align: center;
+}
+.ev-diagram-wrapper + p > em {
+  font-style: italic;
+}
+
+/* ── Bold title above diagram: pull into box ──── */
+/* The bold-only paragraph before the wrapper      */
+/* merges into the top of the box.                 */
+p:has(> strong:only-child) + .ev-diagram-wrapper .mermaid,
+p:has(> strong:only-child) + .ev-diagram-wrapper {
+  margin-top: 0;
+}
+p:has(> strong:only-child):has(+ .ev-diagram-wrapper) {
+  margin: 2em 0 0;
+  padding: 0.8em 1.4em 0.2em;
+  background: rgba(0, 0, 0, 0.012);
+  border: 1px solid #e0e0e0;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  font-size: 0.88em;
+  text-align: center;
+  color: #444444;
+}
+p:has(> strong:only-child):has(+ .ev-diagram-wrapper) + .ev-diagram-wrapper .mermaid {
+  border-radius: 0;
+  border-top: none;
+}
+
+/* When title is present, the wrapper loses top rounding */
+p:has(> strong:only-child):has(+ .ev-diagram-wrapper) + .ev-diagram-wrapper + p {
+  /* caption stays rounded at bottom */
+}
+
+/* ── Dark mode caption/title ─────────────────── */
+[data-md-color-scheme="slate"] .ev-diagram-wrapper + p {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: #444;
+  color: #999999;
+}
+[data-md-color-scheme="slate"] p:has(> strong:only-child):has(+ .ev-diagram-wrapper) {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: #444;
+  color: #bbbbbb;
+}
+
+/* ── Timeline: section connector lines ────────── */
+.mermaid [class*="section-"] line[class*="node-line"],
+.mermaid [class*="section--"] line[class*="node-line"],
+.mermaid line[class*="node-line-"] {
+  stroke: var(--ev-stroke) !important;
+  stroke-width: 2px !important;
+}
+.mermaid .taskWrapper line,
+.mermaid .eventWrapper line {
+  stroke: var(--ev-stroke) !important;
+  stroke-width: 2px !important;
+}
+
+/* ── Mindmap: override mermaid's hsl() fills ──── */
+/* Mermaid SVG uses ID selectors (#id .section-N)  */
+/* and [data-look="neo"] attribute selectors.      */
+/* We use !important on broad selectors to win.    */
+
+/* Root node: grey */
+.mermaid .section--1 rect,
+.mermaid .section--1 path,
+.mermaid .section--1 circle,
+.mermaid .section--1 polygon {
+  fill: var(--ev-grey) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section--1 text { fill: var(--ev-text) !important; }
+
+/* Branch 0: blue */
+.mermaid .section-0 rect,
+.mermaid .section-0 path,
+.mermaid .section-0 circle,
+.mermaid .section-0 polygon {
+  fill: var(--ev-blue) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-0 text { fill: var(--ev-text) !important; }
+
+/* Branch 1: green */
+.mermaid .section-1 rect,
+.mermaid .section-1 path,
+.mermaid .section-1 circle,
+.mermaid .section-1 polygon {
+  fill: var(--ev-green) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-1 text { fill: var(--ev-text) !important; }
+
+/* Branch 2: yellow */
+.mermaid .section-2 rect,
+.mermaid .section-2 path,
+.mermaid .section-2 circle,
+.mermaid .section-2 polygon {
+  fill: var(--ev-yellow) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-2 text { fill: var(--ev-text) !important; }
+
+/* Branch 3: magenta */
+.mermaid .section-3 rect,
+.mermaid .section-3 path,
+.mermaid .section-3 circle,
+.mermaid .section-3 polygon {
+  fill: var(--ev-magenta) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-3 text { fill: var(--ev-text) !important; }
+
+/* Branch 4: cyan */
+.mermaid .section-4 rect,
+.mermaid .section-4 path,
+.mermaid .section-4 circle,
+.mermaid .section-4 polygon {
+  fill: var(--ev-cyan) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-4 text { fill: var(--ev-text) !important; }
+
+/* Branch 5: red */
+.mermaid .section-5 rect,
+.mermaid .section-5 path,
+.mermaid .section-5 circle,
+.mermaid .section-5 polygon {
+  fill: var(--ev-red) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-5 text { fill: var(--ev-text) !important; }
+
+/* Branch 6+: cycle back */
+.mermaid .section-6 rect,
+.mermaid .section-6 path,
+.mermaid .section-6 circle,
+.mermaid .section-6 polygon {
+  fill: var(--ev-blue) !important;
+  stroke: var(--ev-stroke) !important;
+}
+.mermaid .section-7 rect,
+.mermaid .section-7 path,
+.mermaid .section-7 circle,
+.mermaid .section-7 polygon {
+  fill: var(--ev-green) !important;
+  stroke: var(--ev-stroke) !important;
+}
+
+/* Mindmap edge lines */
+.mermaid .section-edge--1 { stroke: var(--ev-grey) !important; }
+.mermaid .section-edge-0 path { stroke: var(--ev-blue) !important; }
+.mermaid .section-edge-1 path { stroke: var(--ev-green) !important; }
+.mermaid .section-edge-2 path { stroke: var(--ev-yellow) !important; }
+.mermaid .section-edge-3 path { stroke: var(--ev-magenta) !important; }
+.mermaid .section-edge-4 path { stroke: var(--ev-cyan) !important; }
+.mermaid .section-edge-5 path { stroke: var(--ev-red) !important; }
+.mermaid .section-edge-6 path { stroke: var(--ev-blue) !important; }
+.mermaid .section-edge-7 path { stroke: var(--ev-green) !important; }
+
+/* ── Flowchart: node colours are set via inline  */
+/* style directives in each mermaid block.        */
+/* No CSS overrides needed for flowcharts.        */
+
+/* ── State diagram colours ───────────────────── */
+.mermaid .statediagram-state rect {
+  fill: var(--ev-grey) !important;
+  stroke: var(--ev-stroke) !important;
+}
+
+/* ── Quadrant chart colours ──────────────────── */
+.mermaid .quadrant-point {
+  fill: var(--ev-blue) !important;
+}
+
+/* ── Mermaid diagram wrapper & expand button ──── */
+.ev-diagram-wrapper {
+  position: relative;
+}
+
+.ev-diagram-expand {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #555;
+  font-size: 16px;
+  line-height: 26px;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  padding: 0;
+}
+
+.ev-diagram-wrapper:hover .ev-diagram-expand {
+  opacity: 1;
+}
+
+.ev-diagram-expand:hover {
+  background: #e64a19;
+  color: #fff;
+  border-color: #e64a19;
+}
+
+/* ── Mermaid expanded state ─────────────────────── */
+.ev-diagram-wrapper.ev-diagram-expanded {
+  position: fixed;
+  inset: 2rem;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ev-diagram-wrapper.ev-diagram-expanded::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+.ev-diagram-wrapper.ev-diagram-expanded .mermaid {
+  width: 100%;
+  max-width: 95vw;
+  max-height: 90vh;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+  overflow: auto;
+}
+
+.ev-diagram-wrapper.ev-diagram-expanded .ev-diagram-expand {
+  opacity: 1;
+}
+
+/* ── Dark mode expand button ───────────────────── */
+[data-md-color-scheme="slate"] .ev-diagram-expand {
+  background: rgba(30, 30, 30, 0.85);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #aaa;
+}
+
+[data-md-color-scheme="slate"] .ev-diagram-expand:hover {
+  background: #ff7043;
+  color: #fff;
+  border-color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .ev-diagram-wrapper.ev-diagram-expanded .mermaid {
+  background: #1e1e1e;
+  border-color: #444;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Dark mode: mermaid diagrams ──────────────── */
+/* Dark palette colours are set via CSS variables  */
+/* above ([data-md-color-scheme="slate"]).          */
+/* No invert filter needed — colours are explicit. */
+
+/* ── Subject Index ───────────────────────────── */
+.subject-index {
+  column-count: 2;
+  column-gap: 2.5em;
+  column-rule: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.subject-index h2 {
+  column-span: all;
+  font-size: 1.15em;
+  font-weight: 700;
+  margin-top: 1.4em;
+  margin-bottom: 0.2em;
+  padding-bottom: 0.15em;
+  border-bottom: 2px solid #e64a19;
+  color: #e64a19;
+}
+
+.subject-index h2:first-of-type {
+  margin-top: 0.4em;
+}
+
+.subject-index ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.2em 0 0.6em 0;
+}
+
+.subject-index li {
+  font-size: 0.86em;
+  line-height: 1.45;
+  padding: 0.08em 0;
+  text-align: left;
+  break-inside: avoid;
+}
+
+.subject-index li strong {
+  font-weight: 600;
+}
+
+.subject-index li a {
+  color: #5c6bc0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.subject-index li a:hover {
+  text-decoration: underline;
+  color: #e64a19;
+}
+
+/* Notation index shares subject-index styling */
+.notation-index {
+  column-count: 2;
+  column-gap: 2.5em;
+  column-rule: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.notation-index h2 {
+  column-span: all;
+  font-size: 1.15em;
+  font-weight: 700;
+  margin-top: 1.4em;
+  margin-bottom: 0.2em;
+  padding-bottom: 0.15em;
+  border-bottom: 2px solid #e64a19;
+  color: #e64a19;
+}
+
+.notation-index h2:first-of-type {
+  margin-top: 0.4em;
+}
+
+.notation-index ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.2em 0 0.6em 0;
+}
+
+.notation-index li {
+  font-size: 0.86em;
+  line-height: 1.45;
+  padding: 0.08em 0;
+  text-align: left;
+  break-inside: avoid;
+}
+
+.notation-index li strong {
+  font-weight: 600;
+}
+
+.notation-index li a {
+  color: #5c6bc0;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.notation-index li a:hover {
+  text-decoration: underline;
+  color: #e64a19;
+}
+
+@media (max-width: 768px) {
+  .subject-index,
+  .notation-index {
+    column-count: 1;
+  }
+}
+
+/* ── Glossary / definitions ──────────────────── */
+.md-typeset dt {
+  font-weight: 700;
+  margin-top: 1.2em;
+  color: #333;
+}
+
+.md-typeset dd {
+  margin-left: 1.5em;
+  margin-bottom: 0.6em;
+}
+
+/* ── Lists ───────────────────────────────────── */
+.md-typeset ol,
+.md-typeset ul {
+  margin-bottom: 1em;
+}
+
+.md-typeset li + li {
+  margin-top: 0.25em;
+}
+
+/* ── Exercise difficulty labels ──────────────── */
+.md-typeset h3[id*="routine"],
+.md-typeset h3[id*="intermediate"],
+.md-typeset h3[id*="challenging"] {
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #888;
+  border-bottom: none;
+  margin-top: 2.2em;
+  padding: 0.35em 0.9em;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 3px;
+  display: inline-block;
+  border-left: 3px solid #e64a19;
+}
+
+/* ── Part labels ─────────────────────────────── */
+.md-typeset > p:nth-of-type(1) > strong:first-child {
+  font-size: 0.82em;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #e64a19;
+}
+
+/* ── Pseudocode blocks ───────────────────────── */
+.md-typeset pre:not(.mermaid):not(.highlight) {
+  background: rgba(0, 0, 0, 0.02);
+  border-left: 3px solid #bbb;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ── Horizontal rules (section dividers) ─────── */
+.md-typeset hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin: 2.5em 0;
+}
+
+/* ── Navigation ──────────────────────────────── */
+.md-tabs {
+  font-size: 0.8em;
+}
+
+.md-nav__link {
+  font-size: 0.82em;
+}
+
+.md-sidebar--secondary .md-nav__link {
+  font-size: 0.75em;
+}
+
+/* ── Footer ──────────────────────────────────── */
+.md-footer {
+  margin-top: 3em;
+}
+
+/* ── Footnotes ───────────────────────────────── */
+.md-typeset .footnote {
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+
+/* ── Navigation uses sans-serif ──────────────── */
+.md-nav,
+.md-tabs,
+.md-header,
+.md-footer,
+.md-sidebar {
+  font-family: "Inter", var(--md-text-font-family), sans-serif;
+}
+
+/* ── Print ───────────────────────────────────── */
+@media print {
+  .md-sidebar, .md-header, .md-footer, .md-tabs {
+    display: none !important;
+  }
+  .md-content { max-width: 100%; }
+  .md-typeset { text-align: left; }
+  mjx-container[display="true"] { background: none; border: none; }
+  .md-typeset details { open: true; }
+  .md-typeset details > summary { display: none; }
+}
+
+/* ═══════════════════════════════════════════════ */
+/* ── Dark mode (slate) ─────────────────────────  */
+/* ═══════════════════════════════════════════════ */
+
+[data-md-color-scheme="slate"] mjx-container[display="true"] {
+  background: rgba(255, 255, 255, 0.03);
+  border-left-color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .md-typeset blockquote {
+  background: rgba(255, 112, 67, 0.04);
+  border-left-color: #ff7043;
+  color: #b0b0b0;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1 {
+  border-bottom-color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  border-bottom-color: rgba(255, 112, 67, 0.25);
+}
+
+[data-md-color-scheme="slate"] .md-typeset h3 {
+  color: #ccc;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h4 {
+  color: #bbb;
+}
+
+[data-md-color-scheme="slate"] .md-typeset code {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-md-color-scheme="slate"] .md-typeset pre {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-left-color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .md-typeset dt {
+  color: #ddd;
+}
+
+[data-md-color-scheme="slate"] .mermaid {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom-color: #444;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) td {
+  border-bottom-color: #333;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tr:hover {
+  background: rgba(255, 112, 67, 0.05);
+}
+
+[data-md-color-scheme="slate"] .md-typeset hr {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-md-color-scheme="slate"] .md-typeset h3[id*="routine"],
+[data-md-color-scheme="slate"] .md-typeset h3[id*="intermediate"],
+[data-md-color-scheme="slate"] .md-typeset h3[id*="challenging"] {
+  background: rgba(255, 255, 255, 0.05);
+  color: #999;
+  border-left-color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .md-typeset > p:nth-of-type(1) > strong:first-child {
+  color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .md-typeset pre:not(.mermaid):not(.highlight) {
+  border-left-color: #666;
+}
+
+[data-md-color-scheme="slate"] #ev-toolbar {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-md-color-scheme="slate"] #ev-toolbar button {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-md-color-scheme="slate"] #ev-toolbar button:hover {
+  background: #ff7043;
+  border-color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] #ev-zen-btn {
+  border-left-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-md-color-scheme="slate"] .subject-index {
+  column-rule-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-md-color-scheme="slate"] .subject-index h2 {
+  border-bottom-color: #ff7043;
+  color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .subject-index li a {
+  color: #7986cb;
+}
+
+[data-md-color-scheme="slate"] .subject-index li a:hover {
+  color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .notation-index {
+  column-rule-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-md-color-scheme="slate"] .notation-index h2 {
+  border-bottom-color: #ff7043;
+  color: #ff7043;
+}
+
+[data-md-color-scheme="slate"] .notation-index li a {
+  color: #7986cb;
+}
+
+[data-md-color-scheme="slate"] .notation-index li a:hover {
+  color: #ff7043;
+}

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+  <script>
+    /* ── Mermaid theme patch (must run BEFORE Material's bundle) ── */
+    /* Material derives mermaid primaryColor from the accent colour  */
+    /* (deep orange → salmon). This patches mermaid.initialize to   */
+    /* force our grey palette before Material calls it.              */
+    (function() {
+      var EV = {
+        primaryColor: "#e8e8e8", primaryTextColor: "#333333",
+        primaryBorderColor: "#555555", lineColor: "#666666",
+        secondaryColor: "#d1ecf1", tertiaryColor: "#c8e6c9",
+        nodeBkg: "#e8e8e8", mainBkg: "#e8e8e8", nodeBorder: "#555555",
+        stateBkg: "#e8e8e8", useGradient: false
+      };
+      Object.defineProperty(window, "__mermaid_ev_theme", { value: EV });
+      // Intercept mermaid.initialize when mermaid loads
+      var desc = Object.getOwnPropertyDescriptor(window, "mermaid");
+      var _mermaid;
+      if (!desc || !desc.set) {
+        Object.defineProperty(window, "mermaid", {
+          configurable: true,
+          get: function() { return _mermaid; },
+          set: function(v) {
+            _mermaid = v;
+            if (v && v.initialize) {
+              var orig = v.initialize;
+              v.initialize = function(cfg) {
+                if (!cfg) cfg = {};
+                if (!cfg.themeVariables) cfg.themeVariables = {};
+                for (var k in EV) cfg.themeVariables[k] = EV[k];
+                cfg.theme = "base";
+                return orig.call(v, cfg);
+              };
+            }
+          }
+        });
+      }
+    })();
+  </script>
+  {{ super() }}
+  <script>
+    /* ── Evenwicht custom scripts ───────────────────────────── */
+
+    /* ── MathJax re-typeset on <details> toggle ─────────── */
+    (function() {
+      function attachDetailsListeners() {
+        document.querySelectorAll("details").forEach(function(el) {
+          if (el.__mjxToggle) return;
+          el.__mjxToggle = true;
+          el.addEventListener("toggle", function() {
+            if (el.open && typeof MathJax !== "undefined") {
+              MathJax.typesetPromise([el]);
+            }
+          });
+        });
+      }
+      if (typeof document$ !== "undefined") {
+        document$.subscribe(function() { attachDetailsListeners(); });
+      } else {
+        document.addEventListener("DOMContentLoaded", attachDetailsListeners);
+      }
+    })();
+
+    /* ── Reading toolbar: font size + zen mode ────────────── */
+    (function() {
+      var FONT_KEY = "evenwicht-font-size";
+      var ZEN_KEY  = "evenwicht-zen";
+      var SIZES = [0.78, 0.82, 0.86, 0.90, 0.95, 1.00];
+      var DEFAULT_IDX = 2; /* 0.86rem */
+
+      function getIdx() {
+        var stored = localStorage.getItem(FONT_KEY);
+        if (stored !== null) {
+          var n = parseInt(stored, 10);
+          if (n >= 0 && n < SIZES.length) return n;
+        }
+        return DEFAULT_IDX;
+      }
+
+      function applySize(idx) {
+        document.documentElement.style.setProperty(
+          "--ev-font-size", SIZES[idx] + "rem"
+        );
+        localStorage.setItem(FONT_KEY, idx);
+        var label = document.getElementById("ev-font-label");
+        if (label) label.textContent = Math.round(SIZES[idx] * 100) + "%";
+      }
+
+      function isZen() {
+        return localStorage.getItem(ZEN_KEY) === "1";
+      }
+
+      function applyZen(on) {
+        document.body.classList.toggle("ev-zen", on);
+        localStorage.setItem(ZEN_KEY, on ? "1" : "0");
+        var btn = document.getElementById("ev-zen-btn");
+        if (btn) btn.textContent = on ? "Exit Focus" : "Focus";
+      }
+
+      function createToolbar() {
+        if (document.getElementById("ev-toolbar")) return;
+
+        var bar = document.createElement("div");
+        bar.id = "ev-toolbar";
+
+        /* Font size controls */
+        var smaller = document.createElement("button");
+        smaller.textContent = "A\u2212";
+        smaller.title = "Decrease font size";
+        smaller.addEventListener("click", function() {
+          var idx = Math.max(0, getIdx() - 1);
+          applySize(idx);
+        });
+
+        var label = document.createElement("span");
+        label.id = "ev-font-label";
+
+        var larger = document.createElement("button");
+        larger.textContent = "A+";
+        larger.title = "Increase font size";
+        larger.addEventListener("click", function() {
+          var idx = Math.min(SIZES.length - 1, getIdx() + 1);
+          applySize(idx);
+        });
+
+        /* Focus mode toggle */
+        var zen = document.createElement("button");
+        zen.id = "ev-zen-btn";
+        zen.title = "Toggle focus mode";
+        zen.addEventListener("click", function() {
+          applyZen(!isZen());
+        });
+
+        bar.appendChild(smaller);
+        bar.appendChild(label);
+        bar.appendChild(larger);
+        bar.appendChild(zen);
+        document.body.appendChild(bar);
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        createToolbar();
+        applySize(getIdx());
+        applyZen(isZen());
+        applyRawdog(isRawdog());
+      });
+    })();
+  </script>
+{% endblock %}
